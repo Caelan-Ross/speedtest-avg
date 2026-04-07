@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: transparent;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.card {
+  background: rgba(128, 128, 128, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.label {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.value {
+  font-size: 20px;
+  font-weight: 500;
+  color: #eee;
+}
+
+.unit {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.footer {
+  font-size: 11px;
+  color: #666;
+  margin-top: 8px;
+}
+
+.error {
+    color:#888;
+    font-family:sans-serif;
+    padding:12px;
+}
