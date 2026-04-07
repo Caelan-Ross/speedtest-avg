@@ -35,8 +35,8 @@ app.get('/', async (_req, res) => {
   </head>
   <body>
     <div class="grid">
-      <div class="card"><div class="label">Avg. Download</div><div class="value">${download}</div><div class="unit">Mbps</div></div>
-      <div class="card"><div class="label">Avg. Upload</div><div class="value">${upload}</div><div class="unit">Mbps</div></div>
+      <div class="card"><div class="label">Avg. Down</div><div class="value">${download}</div><div class="unit">Mbps</div></div>
+      <div class="card"><div class="label">Avg. Up</div><div class="value">${upload}</div><div class="unit">Mbps</div></div>
       <div class="card"><div class="label">Avg. Ping</div><div class="value">${ping}</div><div class="unit">ms</div></div>
     </div>
   </body>
