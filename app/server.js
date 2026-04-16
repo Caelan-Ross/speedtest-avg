@@ -7,12 +7,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 const BASE_URL = process.env.SPEEDTEST_URL;
 const API_KEY = process.env.SPEEDTEST_API_KEY;
 
+async function fetchWithRetry(url, options = {}, { retries = 3, delay = 500, backoff = 2 } = {}) {
+  let attempt = 0;
+  let currentDelay = delay;
+
+  while (attempt < retries) {
+    try {
+      const res = await fetch(url, options);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res;
+    } catch (err) {
+      attempt++;
+      if (attempt >= retries) throw err;
+      await new Promise(r => setTimeout(r, currentDelay));
+      currentDelay *= backoff;
+    }
+  }
+}
+
 app.get('/', async (_req, res) => {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 
   try {
-    const response = await fetch(`${BASE_URL}/api/v1/stats?start_at=${start}`, {
+    const response = await fetchWithRetry(`${BASE_URL}/api/v1/stats?start_at=${start}`, {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${API_KEY}`
@@ -21,7 +39,6 @@ app.get('/', async (_req, res) => {
 
     const json = await response.json();
     const jsonData = json.data;
-
     const download = (jsonData.download.avg_bits / 1e6).toFixed(1);
     const upload = (jsonData.upload.avg_bits / 1e6).toFixed(1);
     const ping = Math.round(jsonData.ping.avg);
